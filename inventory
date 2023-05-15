@@ -1,0 +1,2 @@
+[containers]
+127.0.0.1 ansible_user=ansible_usr ansible_ssh_pass=Test@321 ansible_sudo_pass=Test@321
