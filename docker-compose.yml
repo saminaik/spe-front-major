@@ -1,0 +1,47 @@
+version: '3'
+services:
+  mysql-hospital-service:
+    image: mysql:latest
+    container_name: mysql-hospital-service
+    restart: always
+    ports:
+      - "3307:3306"
+    networks:
+      - spe-network
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_ROOT_PASSWORD: saminaik
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - "~/spe-dp:/var/lib/mysql"
+
+  spe_back-end-container:
+    image: "saminaik/spe_back-end:latest"
+    container_name: spe_back-end-container
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-hospital-service:3306/demo?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: saminaik
+    networks:
+      - spe-network
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-hospital-service
+
+  spe-front-end-container:
+    image: "saminaik/spe_front-end:latest"
+    container_name: spe-front-end-container
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - spe_back-end-container
+
+networks:
+  spe-network:
+    driver: bridge
+
+volumes:
+  spe-db:
