@@ -10,7 +10,7 @@ export default function DoctorDashboard() {
     navigate("/precription", { state: { id: location.state } });
   }
   function logout() {
-    navigate("/"); // Replace "/login" with the actual path to your login page.
+    navigate("/"); 
   }
   return (
     <React.Fragment>
